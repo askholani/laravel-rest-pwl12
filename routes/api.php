@@ -16,16 +16,23 @@ use App\Http\Controllers\ApiAuthController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
 
 Route::get('/hello',function () {
     // $data=["message"=>"hello word"];
     // return response()->json($data);
-    return "hello word";
+    return "";
 });
 
-Route::apiResource('/mahasiswas',MahasiswaController::class);
+Route::apiResource('/mahasiswa',MahasiswaController::class);
 
 Route::post('/login', [ApiAuthController::class,'login']);
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::apiResource('/mahasiswa',MahasiswaController::class);
+    Route::get('/logout',[ApiAuthController::class, 'logout']);
+});
+
+Route::post('/register', [ApiAuthController::class, 'register']);
